@@ -1,9 +1,12 @@
 package com.alorma.tempcontacts.ui.theme
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 
 private val DarkColorPalette = darkColors(
   primary = Purple200,
@@ -23,6 +26,12 @@ fun TempContactsTheme(content: @Composable() () -> Unit) {
     colors = LightColorPalette,
     typography = Typography,
     shapes = Shapes,
-    content = content
+    content = {
+      CompositionLocalProvider(
+        LocalIndication provides rememberRipple(color = MaterialTheme.colors.primary)
+      ) {
+        content()
+      }
+    }
   )
 }
