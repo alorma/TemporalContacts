@@ -27,10 +27,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import contacts.core.AbstractDataFieldSet
 import contacts.core.DataField
 import contacts.core.entities.Contact
+import contacts.core.util.addressList
 import contacts.core.util.emailList
+import contacts.core.util.phoneList
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -56,8 +57,8 @@ fun ContactsScreen(
 
 @Composable
 fun ContactFilters(
-  filters: List<Triple<String, AbstractDataFieldSet<DataField>, Boolean>>,
-  onFilterChange: (AbstractDataFieldSet<DataField>) -> Unit,
+  filters: List<Triple<String, DataField, Boolean>>,
+  onFilterChange: (DataField) -> Unit,
 ) {
   LazyRow(
     modifier = Modifier.fillMaxWidth()
@@ -129,10 +130,19 @@ fun ContactView(contact: Contact) {
         Text(text = primaryName)
       }
       if (!contact.emailList().isNullOrEmpty()) {
-        val primaryEmail = contact.emailList().firstOrNull { email -> email.isPrimary }?.address
-        if (primaryEmail != null) {
-          Text(text = primaryEmail)
-        }
+        val emails = contact.emailList().mapNotNull { it.address }.distinct().joinToString("\n")
+        Text(text = "Emails:")
+        Text(text = emails)
+      }
+      if (!contact.phoneList().isNullOrEmpty()) {
+        val phones = contact.phoneList().mapNotNull { it.number }.distinct().joinToString("\n")
+        Text(text = "Phones:")
+        Text(text = phones)
+      }
+      if (!contact.addressList().isNullOrEmpty()) {
+        val phones = contact.addressList().mapNotNull { it.formattedAddress }.distinct().joinToString("\n")
+        Text(text = "Address:")
+        Text(text = phones)
       }
     }
   }
