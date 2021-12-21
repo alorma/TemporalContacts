@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.alorma.tempcontacts.screen.contacts.ContactsScreen
+import com.alorma.tempcontacts.screen.temporal.TemporalScreen
 import com.alorma.tempcontacts.ui.theme.TempContactsTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionRequired
@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
             },
             permissionNotAvailableContent = { Text(text = "Denied") },
           ) {
-            ContactsScreen()
+            TemporalScreen()
           }
         }
       }
