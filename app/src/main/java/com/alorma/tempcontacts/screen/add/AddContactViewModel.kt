@@ -5,16 +5,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.alorma.tempcontacts.data.ContactsDatasource
+import kotlinx.coroutines.launch
 
-class AddContactViewModel : ViewModel() {
+class AddContactViewModel(
+  private val contactsDatasource: ContactsDatasource
+) : ViewModel() {
 
-  var nameValue by mutableStateOf<String?>(null)
-  var phoneValue by mutableStateOf<String?>(null)
-  var emailValue by mutableStateOf<String?>(null)
+  var nameValue by mutableStateOf<String?>("tempcontacts")
+  var phoneValue by mutableStateOf<String?>("637098531")
+  var emailValue by mutableStateOf<String?>("tempo@contacts.com")
 
   fun onSave() {
-    Log.i("Alorma", nameValue.orEmpty())
-    Log.i("Alorma", phoneValue.orEmpty())
-    Log.i("Alorma", emailValue.orEmpty())
+    checkNotNull(nameValue)
+
+    viewModelScope.launch {
+      val result = contactsDatasource.create(nameValue!!, phoneValue, emailValue)
+
+      Log.i("Alorma", "Created ID: $result")
+    }
   }
 }

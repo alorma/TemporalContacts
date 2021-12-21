@@ -26,7 +26,7 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TemporalScreen(
-  temporalContactsViewModel: TemporalContactsViewModel = getViewModel(),
+  //temporalContactsViewModel: TemporalContactsViewModel = getViewModel(),
 ) {
 
   val coroutineScope = rememberCoroutineScope()
@@ -49,8 +49,8 @@ fun TemporalScreen(
         }
       },
     ) {
-      val temporalContacts by temporalContactsViewModel.temporalContacts.collectAsState()
-      ContactsList(temporalContacts)
+      //val temporalContacts by temporalContactsViewModel.temporalContacts.collectAsState()
+      //ContactsList(temporalContacts)
     }
   }
 }

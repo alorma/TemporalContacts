@@ -6,6 +6,6 @@ import org.koin.dsl.module
 object AddContactModule {
 
   operator fun invoke() = module {
-    viewModel { AddContactViewModel() }
+    viewModel { AddContactViewModel(get()) }
   }
 }
