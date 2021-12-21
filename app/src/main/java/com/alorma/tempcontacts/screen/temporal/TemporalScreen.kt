@@ -2,7 +2,6 @@ package com.alorma.tempcontacts.screen.temporal
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
@@ -20,13 +19,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
 import com.alorma.tempcontacts.screen.add.AddContactSheet
+import dev.burnoo.cokoin.viewmodel.getViewModel
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TemporalScreen(
-  //temporalContactsViewModel: TemporalContactsViewModel = getViewModel(),
+  temporalContactsViewModel: TemporalContactsViewModel = getViewModel(),
 ) {
 
   val coroutineScope = rememberCoroutineScope()
@@ -49,8 +48,8 @@ fun TemporalScreen(
         }
       },
     ) {
-      //val temporalContacts by temporalContactsViewModel.temporalContacts.collectAsState()
-      //ContactsList(temporalContacts)
+      val temporalContacts by temporalContactsViewModel.temporalContacts.collectAsState()
+      ContactsList(temporalContacts)
     }
   }
 }

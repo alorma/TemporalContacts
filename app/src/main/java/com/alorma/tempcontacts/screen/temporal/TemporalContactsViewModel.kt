@@ -11,9 +11,10 @@ class TemporalContactsViewModel(
 
   // A contact: 2545
 
-  private val _temporalContacts: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
+  private val _temporalContacts: MutableStateFlow<List<String>> = MutableStateFlow(
+    listOf("Hello", "World")
+  )
 
   val temporalContacts: StateFlow<List<String>>
     get() = _temporalContacts
-
 }

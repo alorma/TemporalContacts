@@ -32,7 +32,7 @@ import contacts.core.entities.Contact
 import contacts.core.util.addressList
 import contacts.core.util.emailList
 import contacts.core.util.phoneList
-import org.koin.androidx.compose.getViewModel
+import dev.burnoo.cokoin.viewmodel.getViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
