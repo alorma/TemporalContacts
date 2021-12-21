@@ -11,6 +11,7 @@ import com.alorma.tempcontacts.screen.contacts.ContactsModule
 import com.alorma.tempcontacts.screen.temporal.TemporalModule
 import com.alorma.tempcontacts.screen.temporal.TemporalScreen
 import com.alorma.tempcontacts.ui.theme.TempContactsTheme
+import contacts.core.Contacts
 import dev.burnoo.cokoin.Koin
 import org.koin.android.ext.koin.androidContext
 
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
           //androidLogger()
           androidContext(this@MainActivity.applicationContext)
           modules(
-            DataModule(this@MainActivity),
+            DataModule(Contacts(this@MainActivity)),
             ContactsModule(),
             TemporalModule(),
             AddContactModule(),

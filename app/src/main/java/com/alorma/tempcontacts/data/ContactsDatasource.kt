@@ -24,7 +24,7 @@ class ContactsDatasource(
 ) {
   suspend fun loadAllContacts(filters: List<DataField>): List<Contact> {
     return contacts
-      .query()
+      .queryWithPermission()
       .where(filters whereAnd { it.isNotNullOrEmpty() })
       .include(
         Fields.Contact.Id,
@@ -54,7 +54,7 @@ class ContactsDatasource(
       }
     }
     return contacts
-      .insert()
+      .insertWithPermission()
       .rawContacts(rawContact)
       .commitWithContext()
       .rawContactId(rawContact)

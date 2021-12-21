@@ -14,11 +14,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
 import com.alorma.tempcontacts.screen.add.AddContactSheet
+import com.alorma.tempcontacts.screen.contacts.ContactsScreen
 import dev.burnoo.cokoin.viewmodel.getViewModel
 import kotlinx.coroutines.launch
 
@@ -29,7 +28,7 @@ fun TemporalScreen(
 ) {
 
   val coroutineScope = rememberCoroutineScope()
-  val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Expanded)
+  val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
   ModalBottomSheetLayout(
     sheetState = sheetState,
@@ -48,8 +47,11 @@ fun TemporalScreen(
         }
       },
     ) {
-      val temporalContacts by temporalContactsViewModel.temporalContacts.collectAsState()
-      ContactsList(temporalContacts)
+      ContactsScreen()
+      /*
+        val temporalContacts by temporalContactsViewModel.temporalContacts.collectAsState()
+        ContactsList(temporalContacts)
+        */
     }
   }
 }
