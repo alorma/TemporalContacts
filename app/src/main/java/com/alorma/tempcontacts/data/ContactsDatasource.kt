@@ -1,6 +1,5 @@
 package com.alorma.tempcontacts.data
 
-import android.content.Context
 import contacts.async.commitWithContext
 import contacts.async.findWithContext
 import contacts.core.Contacts
@@ -17,12 +16,8 @@ import contacts.core.util.addEmail
 import contacts.core.util.addPhone
 import contacts.core.util.setName
 import contacts.core.whereAnd
-import contacts.debug.logContactsProviderTables
-import contacts.permissions.insertWithPermission
-import contacts.permissions.queryWithPermission
 
 class ContactsDatasource(
-  private val context: Context,
   private val contacts: Contacts
 ) {
   suspend fun loadAllContacts(filters: List<DataField>): List<Contact> {
@@ -58,7 +53,6 @@ class ContactsDatasource(
     }
     return contacts
       .insert()
-      .allowBlanks(true)
       .rawContacts(rawContact)
       .commitWithContext()
       .rawContactId(rawContact)
