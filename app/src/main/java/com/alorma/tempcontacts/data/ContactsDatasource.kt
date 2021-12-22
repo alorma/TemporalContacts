@@ -1,5 +1,6 @@
 package com.alorma.tempcontacts.data
 
+import android.accounts.Account
 import contacts.async.commitWithContext
 import contacts.async.findWithContext
 import contacts.core.Contacts
@@ -51,8 +52,14 @@ class ContactsDatasource(
         }
       }
     }
+
+    val profile = contacts.accounts().profile().query()
+
+    val account = profile.accountsWithType("com.google").first()
+
     return contacts
       .insert()
+      .forAccount(account)
       .rawContacts(rawContact)
       .commitWithContext()
       .rawContactId(rawContact)

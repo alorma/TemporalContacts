@@ -14,7 +14,7 @@ class AddContactViewModel(
 ) : ViewModel() {
 
   var nameValue by mutableStateOf<String?>("tempcontacts")
-  var phoneValue by mutableStateOf<String?>("637098531")
+  var phoneValue by mutableStateOf<String?>("646433541")
   var emailValue by mutableStateOf<String?>("tempo@contacts.com")
 
   fun onSave() {
