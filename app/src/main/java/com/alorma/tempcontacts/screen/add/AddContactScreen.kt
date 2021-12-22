@@ -17,10 +17,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import dev.burnoo.cokoin.viewmodel.getViewModel
 
 @Composable
 fun AddContactSheet(
+  navController: NavController,
   addContactViewModel: AddContactViewModel = getViewModel(),
 ) {
   Surface(
