@@ -24,7 +24,9 @@ fun TemporalScreen(
   Scaffold(
     floatingActionButton = {
       FloatingActionButton(onClick = {
-        navController.navigate(Destinations.CREATE)
+        navController.navigate(Destinations.CREATE) {
+          popUpTo(Destinations.TEMPORALS)
+        }
       }) {
         Icon(imageVector = Icons.Default.Add, contentDescription = null)
       }

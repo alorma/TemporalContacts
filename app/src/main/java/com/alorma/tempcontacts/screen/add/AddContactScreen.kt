@@ -5,12 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.Button
-import androidx.compose.material.Surface
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,7 +16,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.alorma.tempcontacts.screen.Destinations
 import dev.burnoo.cokoin.viewmodel.getViewModel
 
 @Composable
@@ -29,12 +26,10 @@ fun AddContactSheet(
 
   val accountCreated by addContactViewModel.accountCreated.collectAsState()
   if (accountCreated) {
-    navController.popBackStack()
+    navController.navigateUp()
   }
 
-  Surface(
-    modifier = Modifier.wrapContentSize(),
-  ) {
+  Scaffold {
     Column(
       modifier = Modifier
         .fillMaxWidth()
@@ -73,12 +68,14 @@ fun AddContactSheet(
         onValueChange = { addContactViewModel.emailValue = it },
       )
 
-      Spacer(modifier = Modifier.height(16.dp))
+      Spacer(modifier = Modifier.weight(1f))
 
-      Button(onClick = { addContactViewModel.onSave() }) {
+      TextButton(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = { addContactViewModel.onSave() }
+      ) {
         Text(text = "SAVE")
       }
     }
-
   }
 }

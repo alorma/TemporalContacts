@@ -5,7 +5,6 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
@@ -19,10 +18,6 @@ import com.alorma.tempcontacts.screen.contacts.ContactsModule
 import com.alorma.tempcontacts.screen.temporal.TemporalModule
 import com.alorma.tempcontacts.screen.temporal.TemporalScreen
 import com.alorma.tempcontacts.ui.theme.TempContactsTheme
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.ModalBottomSheetLayout
-import com.google.accompanist.navigation.material.bottomSheet
-import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionsRequired
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -93,20 +88,16 @@ fun AppWithDependencies(
   )
 }
 
-@OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun AppWithNavigation() {
-  val bottomSheetNavigator = rememberBottomSheetNavigator()
-  val navController = rememberNavController(bottomSheetNavigator)
+  val navController = rememberNavController()
 
-  ModalBottomSheetLayout(bottomSheetNavigator) {
-    NavHost(navController, Destinations.TEMPORALS) {
-      composable(Destinations.TEMPORALS) {
-        TemporalScreen(navController)
-      }
-      bottomSheet(Destinations.CREATE) {
-        AddContactSheet(navController)
-      }
+  NavHost(navController, Destinations.TEMPORALS) {
+    composable(Destinations.TEMPORALS) {
+      TemporalScreen(navController)
+    }
+    composable(Destinations.CREATE) {
+      AddContactSheet(navController)
     }
   }
 }
