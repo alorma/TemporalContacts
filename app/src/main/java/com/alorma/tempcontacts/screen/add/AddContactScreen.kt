@@ -18,7 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
+import com.alorma.tempcontacts.screen.Destinations
 import dev.burnoo.cokoin.viewmodel.getViewModel
 
 @Composable
@@ -27,7 +27,7 @@ fun AddContactSheet(
   addContactViewModel: AddContactViewModel = getViewModel(),
 ) {
 
-  val accountCreated by addContactViewModel.accountCreated.collectAsState(initial = false)
+  val accountCreated by addContactViewModel.accountCreated.collectAsState()
   if (accountCreated) {
     navController.popBackStack()
   }
