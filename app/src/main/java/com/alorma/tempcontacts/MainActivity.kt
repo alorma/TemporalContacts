@@ -1,6 +1,7 @@
 package com.alorma.tempcontacts
 
 import android.Manifest
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,21 +29,10 @@ class MainActivity : ComponentActivity() {
 
     setContent {
       AppWithPermissions {
-        Koin(
-          appDeclaration = {
-            //androidLogger()
-            androidContext(this@MainActivity.applicationContext)
-            modules(
-              DataModule(Contacts(this@MainActivity)),
-              ContactsModule(),
-              TemporalModule(),
-              AddContactModule(),
-            )
-          },
-          content = { App() }
-        )
+        AppWithDependencies(this@MainActivity) {
+          App()
+        }
       }
-
     }
   }
 }
@@ -69,6 +59,26 @@ fun AppWithPermissions(
     },
     permissionsNotAvailableContent = { },
     content = content
+  )
+}
+
+@Composable
+fun AppWithDependencies(
+  activity: Activity,
+  content: @Composable () -> Unit,
+) {
+  Koin(
+    appDeclaration = {
+      //androidLogger()
+      androidContext(activity.applicationContext)
+      modules(
+        DataModule(Contacts(activity)),
+        ContactsModule(),
+        TemporalModule(),
+        AddContactModule(),
+      )
+    },
+    content = content,
   )
 }
 

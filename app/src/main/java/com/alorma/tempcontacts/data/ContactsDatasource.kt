@@ -17,10 +17,17 @@ import contacts.core.util.addEmail
 import contacts.core.util.addPhone
 import contacts.core.util.setName
 import contacts.core.whereAnd
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class ContactsDatasource(
   private val contacts: Contacts
 ) {
+
+  suspend fun getSyncableAccounts(): List<Account> = withContext(Dispatchers.IO) {
+    contacts.accounts(isProfile = true).query().accountsWithType("com.google")
+  }
+
   suspend fun loadAllContacts(filters: List<DataField>): List<Contact> {
     return contacts
       .query()
@@ -36,7 +43,12 @@ class ContactsDatasource(
       .findWithContext()
   }
 
-  suspend fun create(name: String, phone: String?, email: String?): Long? {
+  suspend fun create(
+    name: String,
+    phone: String?,
+    email: String?,
+    account: Account? = null,
+  ): Long? {
     val rawContact = NewRawContact().apply {
       setName { displayName = name }
       if (phone != null) {
@@ -52,11 +64,6 @@ class ContactsDatasource(
         }
       }
     }
-
-    val profile = contacts.accounts().profile().query()
-
-    val account = profile.accountsWithType("com.google").first()
-
     return contacts
       .insert()
       .forAccount(account)

@@ -65,6 +65,7 @@ dependencies {
   implementation "com.github.vestrel00:contacts-android:0.1.9"
 
   implementation "com.google.accompanist:accompanist-permissions:0.21.4-beta"
+  implementation "com.google.accompanist:accompanist-navigation-material:0.21.4-beta"
 
   implementation "androidx.room:room-runtime:2.4.0"
   annotationProcessor "androidx.room:room-compiler:2.4.0"
@@ -80,6 +81,7 @@ dependencies {
   implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
   implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"
   implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+
 
   testImplementation "junit:junit:4.13.2"
 

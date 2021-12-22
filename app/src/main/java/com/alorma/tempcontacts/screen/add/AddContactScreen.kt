@@ -1,5 +1,6 @@
 package com.alorma.tempcontacts.screen.add
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +13,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.burnoo.cokoin.viewmodel.getViewModel
@@ -29,6 +32,18 @@ fun AddContactSheet(
         .padding(16.dp),
       verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
+
+      val account by addContactViewModel.accounts.collectAsState()
+
+      AnimatedVisibility(visible = account != null) {
+        TextField(
+          label = { Text(text = "Account") },
+          modifier = Modifier.fillMaxWidth(),
+          value = account?.name.orEmpty(),
+          enabled = false,
+          onValueChange = { },
+        )
+      }
 
       TextField(
         label = { Text(text = "Name") },

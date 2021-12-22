@@ -28,11 +28,15 @@ fun TemporalScreen(
 ) {
 
   val coroutineScope = rememberCoroutineScope()
-  val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+  val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Expanded)
 
   ModalBottomSheetLayout(
     sheetState = sheetState,
-    sheetContent = { AddContactSheet() },
+    sheetContent = {
+      AddContactSheet(onAccountCreated = {
+        coroutineScope.launch { sheetState.hide() }
+      })
+    },
     sheetShape = RoundedCornerShape(
       topStart = 16.dp,
       topEnd = 16.dp,
