@@ -26,6 +26,12 @@ fun AddContactSheet(
   navController: NavController,
   addContactViewModel: AddContactViewModel = getViewModel(),
 ) {
+
+  val accountCreated by addContactViewModel.accountCreated.collectAsState(initial = false)
+  if (accountCreated) {
+    navController.popBackStack()
+  }
+
   Surface(
     modifier = Modifier.wrapContentSize(),
   ) {

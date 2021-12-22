@@ -7,8 +7,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alorma.tempcontacts.data.ContactsDatasource
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
 class AddContactViewModel(
@@ -22,6 +25,9 @@ class AddContactViewModel(
   private val _accounts: MutableStateFlow<Account?> = MutableStateFlow(null)
   val accounts: StateFlow<Account?>
     get() = _accounts
+
+  private val _accountCreated: Channel<Boolean> = Channel()
+  val accountCreated: Flow<Boolean> = _accountCreated.consumeAsFlow()
 
   init {
     viewModelScope.launch {
@@ -39,6 +45,8 @@ class AddContactViewModel(
         email = emailValue,
         account = _accounts.value,
       )
+
+      _accountCreated.trySend(true)
     }
   }
 }
