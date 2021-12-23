@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
@@ -31,6 +32,7 @@ import contacts.core.DataField
 import contacts.core.entities.Contact
 import contacts.core.util.addressList
 import contacts.core.util.emailList
+import contacts.core.util.eventList
 import contacts.core.util.phoneList
 import dev.burnoo.cokoin.viewmodel.getViewModel
 
@@ -128,6 +130,12 @@ fun ContactView(contact: Contact) {
 
       contact.displayNamePrimary?.let { primaryName ->
         Text(text = primaryName)
+      }
+      val deleteEvent = contact.eventList().firstOrNull()?.date
+      if (deleteEvent != null) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(text = "Remove on: ${deleteEvent.dayOfMonth} / ${deleteEvent.month} / ${deleteEvent.year ?: 0}")
+        Spacer(modifier = Modifier.height(16.dp))
       }
       if (!contact.emailList().isNullOrEmpty()) {
         val emails = contact.emailList().mapNotNull { it.address }.distinct().joinToString("\n")

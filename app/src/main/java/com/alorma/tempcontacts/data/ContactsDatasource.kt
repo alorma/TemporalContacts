@@ -7,18 +7,27 @@ import contacts.core.Contacts
 import contacts.core.ContactsFields
 import contacts.core.DataField
 import contacts.core.Fields
+import contacts.core.and
 import contacts.core.asc
 import contacts.core.entities.Contact
 import contacts.core.entities.EmailEntity
+import contacts.core.entities.EventDate
+import contacts.core.entities.EventEntity
 import contacts.core.entities.NewRawContact
 import contacts.core.entities.PhoneEntity
+import contacts.core.entities.toWhereString
+import contacts.core.equalTo
+import contacts.core.greaterThan
 import contacts.core.isNotNullOrEmpty
+import contacts.core.lessThan
 import contacts.core.util.addEmail
+import contacts.core.util.addEvent
 import contacts.core.util.addPhone
 import contacts.core.util.setName
 import contacts.core.whereAnd
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.Date
 
 class ContactsDatasource(
   private val contacts: Contacts
@@ -31,13 +40,18 @@ class ContactsDatasource(
   suspend fun loadAllContacts(filters: List<DataField>): List<Contact> {
     return contacts
       .query()
-      .where(filters whereAnd { it.isNotNullOrEmpty() })
+      .where(
+        (Fields.Event.Date greaterThan Date().toWhereString())
+          and (Fields.Event.Type equalTo EventEntity.Type.CUSTOM)
+          and (filters whereAnd { it.isNotNullOrEmpty() })
+      )
       .include(
         Fields.Contact.Id,
         Fields.Contact.DisplayNamePrimary,
         Fields.Email.Address,
         Fields.Phone.Number,
         Fields.Address.FormattedAddress,
+        Fields.Event.Date,
       )
       .orderBy(ContactsFields.DisplayNamePrimary.asc())
       .findWithContext()
@@ -58,6 +72,11 @@ class ContactsDatasource(
       addEmail {
         address = email
         type = EmailEntity.Type.OTHER
+      }
+      addEvent {
+        date = EventDate.from(year = 2021, month = 11, dayOfMonth = 24)
+        type = EventEntity.Type.CUSTOM
+        label = "Temp delete"
       }
     }
     return contacts
