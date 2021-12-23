@@ -51,17 +51,13 @@ class ContactsDatasource(
   ): Long? {
     val rawContact = NewRawContact().apply {
       setName { displayName = name }
-      if (phone != null) {
-        addPhone {
-          number = phone
-          type = PhoneEntity.Type.OTHER
-        }
+      addPhone {
+        number = phone
+        type = PhoneEntity.Type.OTHER
       }
-      if (email != null) {
-        addEmail {
-          address = email
-          type = EmailEntity.Type.OTHER
-        }
+      addEmail {
+        address = email
+        type = EmailEntity.Type.OTHER
       }
     }
     return contacts
