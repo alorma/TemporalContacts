@@ -1,18 +1,14 @@
 package com.alorma.tempcontacts.screen.edit
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alorma.tempcontacts.data.ContactsDatasource
 import com.alorma.tempcontacts.data.DeleteUsersDao
 import com.alorma.tempcontacts.screen.base.Maverick
-import contacts.core.entities.Contact
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import java.time.LocalDateTime
 
 class EditContactViewModel(
@@ -24,6 +20,7 @@ class EditContactViewModel(
 
   val contactInfo: StateFlow<Maverick<EditContact>>
     get() = _contactInfo
+
   init {
     viewModelScope.launch {
       _contactInfo.value = Maverick.Loading()
@@ -57,5 +54,4 @@ class EditContactViewModel(
       }
     }
   }
-
 }

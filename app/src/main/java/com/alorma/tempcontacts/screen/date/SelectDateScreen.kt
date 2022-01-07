@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.alorma.tempcontacts.screen.Destinations
+import com.alorma.tempcontacts.screen.base.setArgument
 import java.time.LocalDateTime
 
 @Composable
@@ -20,9 +21,7 @@ fun SelectDateScreen(
     contentAlignment = Alignment.Center,
   ) {
     Button(onClick = {
-      navController.previousBackStackEntry
-        ?.savedStateHandle
-        ?.set(Destinations.SELECT_DATE_RETURN_PARAM, LocalDateTime.now().plusDays(1))
+      navController.setArgument(Destinations.SELECT_DATE_RETURN_PARAM, LocalDateTime.now().plusDays(1))
       navController.popBackStack()
     }) {
       Text(text = "Schedule")
