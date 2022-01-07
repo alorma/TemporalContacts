@@ -7,7 +7,6 @@ import contacts.core.Contacts
 import contacts.core.ContactsFields
 import contacts.core.DataField
 import contacts.core.Fields
-import contacts.core.and
 import contacts.core.asc
 import contacts.core.entities.Contact
 import contacts.core.entities.EmailEntity
@@ -15,19 +14,13 @@ import contacts.core.entities.EventDate
 import contacts.core.entities.EventEntity
 import contacts.core.entities.NewRawContact
 import contacts.core.entities.PhoneEntity
-import contacts.core.entities.toWhereString
 import contacts.core.equalTo
-import contacts.core.greaterThan
-import contacts.core.isNotNullOrEmpty
-import contacts.core.lessThan
 import contacts.core.util.addEmail
 import contacts.core.util.addEvent
 import contacts.core.util.addPhone
 import contacts.core.util.setName
-import contacts.core.whereAnd
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.Date
 
 class ContactsDatasource(
   private val contacts: Contacts
@@ -87,5 +80,20 @@ class ContactsDatasource(
       .rawContacts(rawContact)
       .commitWithContext()
       .rawContactId(rawContact)
+  }
+
+  suspend fun loadContact(contactId: Long): Contact {
+    return contacts.query()
+      .where(Fields.Contact.Id equalTo contactId)
+      .include(
+        Fields.Contact.Id,
+        Fields.Contact.DisplayNamePrimary,
+        Fields.Email.Address,
+        Fields.Phone.Number,
+        Fields.Address.FormattedAddress,
+        Fields.Event.Date,
+      )
+      .findWithContext()
+      .first()
   }
 }
