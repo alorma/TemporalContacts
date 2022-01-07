@@ -23,4 +23,7 @@ object Destinations {
     val argument = backStackEntry.arguments?.getString(EDIT_PARAM)
     return argument?.toLong() ?: error("No contact ID provided")
   }
+
+  val SELECT_DATE: String = "select_date"
+  val SELECT_DATE_RETURN_PARAM: String = "select_date_return_param"
 }

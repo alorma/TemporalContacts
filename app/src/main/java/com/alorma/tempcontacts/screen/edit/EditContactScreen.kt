@@ -1,9 +1,11 @@
 package com.alorma.tempcontacts.screen.edit
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -19,7 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.alorma.tempcontacts.screen.Destinations
 import com.alorma.tempcontacts.screen.base.Maverick
+import java.time.LocalDateTime
 
 @Composable
 fun EditContactScreen(
@@ -39,6 +43,17 @@ fun EditContactScreen(
       )
     }
   ) {
+    val selectedDateParam: LocalDateTime? = navController.currentBackStackEntry
+      ?.savedStateHandle
+      ?.get<LocalDateTime>(Destinations.SELECT_DATE_RETURN_PARAM)
+
+    selectedDateParam?.let { selectedDate ->
+      navController.currentBackStackEntry
+        ?.savedStateHandle
+        ?.clearSavedStateProvider(Destinations.SELECT_DATE_RETURN_PARAM)
+
+      editContactViewModel.setSelectedDate(selectedDate)
+    }
 
     val contactInfo by editContactViewModel.contactInfo.collectAsState()
 
@@ -48,24 +63,34 @@ fun EditContactScreen(
       is Maverick.Fail -> ErrorState()
       is Maverick.Success -> {
         val success = contactInfo as Maverick.Success<EditContact>
-        SuccessState(success.value)
+        SuccessState(
+          editContact = success.value,
+          onSchedule = { navController.navigate(Destinations.SELECT_DATE) }
+        )
       }
     }
   }
 }
 
 @Composable
-fun SuccessState(editContact: EditContact) {
+fun SuccessState(
+  editContact: EditContact,
+  onSchedule: () -> Unit,
+) {
   Column(
     modifier = Modifier.fillMaxSize(),
     verticalArrangement = Arrangement.spacedBy(8.dp)
   ) {
-    if (editContact.scheduled) {
-      Text(text = "Planned")
+    if (editContact.scheduled && editContact.scheduleDate != null) {
+      Text(text = "Planned: ${editContact.scheduleDate.toString()}")
     } else {
       Text(text = "Not planned")
     }
     Text(text = editContact.contact.toString())
+
+    Button(onClick = { onSchedule() }) {
+      Text(text = "Schedule")
+    }
   }
 }
 

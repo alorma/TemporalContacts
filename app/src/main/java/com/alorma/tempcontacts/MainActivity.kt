@@ -16,6 +16,7 @@ import com.alorma.tempcontacts.screen.add.AddContactModule
 import com.alorma.tempcontacts.screen.add.AddContactScreen
 import com.alorma.tempcontacts.screen.contacts.ContactsModule
 import com.alorma.tempcontacts.screen.contacts.ContactsScreen
+import com.alorma.tempcontacts.screen.date.SelectDateScreen
 import com.alorma.tempcontacts.screen.edit.EditContactModule
 import com.alorma.tempcontacts.screen.edit.EditContactScreen
 import com.alorma.tempcontacts.screen.edit.EditContactViewModel
@@ -116,6 +117,9 @@ fun AppWithNavigation() {
         navController = navController,
         editContactViewModel = viewModel,
       )
+    }
+    composable(Destinations.SELECT_DATE) {
+      SelectDateScreen(navController = navController)
     }
   }
 }

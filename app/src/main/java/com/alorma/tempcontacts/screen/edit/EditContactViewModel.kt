@@ -10,19 +10,20 @@ import contacts.core.entities.Contact
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import java.time.LocalDateTime
 
 class EditContactViewModel(
   private val contactsDatasource: ContactsDatasource,
   private val deleteUsersDao: DeleteUsersDao,
   private val contactId: Long,
 ) : ViewModel() {
-
   private val _contactInfo: MutableStateFlow<Maverick<EditContact>> = MutableStateFlow(Maverick.Uninitialized)
+
   val contactInfo: StateFlow<Maverick<EditContact>>
     get() = _contactInfo
-
   init {
     viewModelScope.launch {
       _contactInfo.value = Maverick.Loading()
@@ -38,6 +39,21 @@ class EditContactViewModel(
         _contactInfo.value = Maverick.Success(editContact)
       } catch (e: Exception) {
         _contactInfo.value = Maverick.Fail(e)
+      }
+    }
+  }
+
+  fun setSelectedDate(selectedDate: LocalDateTime) {
+    _contactInfo.update { maverick ->
+      if (maverick is Maverick.Success) {
+        maverick.copy(
+          maverick.value.copy(
+            scheduled = true,
+            scheduleDate = selectedDate
+          )
+        )
+      } else {
+        maverick
       }
     }
   }
