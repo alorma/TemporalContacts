@@ -33,6 +33,11 @@ fun EditContactScreen(
   editContactViewModel: EditContactViewModel,
 ) {
 
+  val accountCreated by editContactViewModel.accountCreated.collectAsState()
+  if (accountCreated) {
+    navController.navigateUp()
+  }
+
   val selectedDateParam: LocalDateTime? = navController.getArgument(Destinations.SELECT_DATE_RETURN_PARAM)
   if (selectedDateParam != null) {
     editContactViewModel.setSelectedDate(selectedDateParam)
@@ -66,6 +71,10 @@ fun EditContactScreen(
           val scheduleDate by editContactViewModel.scheduleDate.collectAsState()
           if (scheduleDate != null) {
             Text(text = scheduleDate.toString())
+            Spacer(modifier = Modifier.weight(1f))
+            Button(onClick = { editContactViewModel.save() }) {
+              Text(text = "Save")
+            }
           } else {
             Spacer(modifier = Modifier.weight(1f))
             Button(onClick = { navController.navigate(Destinations.SELECT_DATE) }) {
