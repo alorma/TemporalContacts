@@ -24,7 +24,7 @@ import androidx.navigation.NavController
 import dev.burnoo.cokoin.viewmodel.getViewModel
 
 @Composable
-fun AddContactSheet(
+fun AddContactScreen(
   navController: NavController,
   contactId: Long? = null,
   addContactViewModel: AddContactViewModel = getViewModel(),
