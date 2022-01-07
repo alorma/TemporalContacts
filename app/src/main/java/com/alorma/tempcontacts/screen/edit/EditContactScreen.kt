@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.alorma.tempcontacts.screen.Destinations
 import com.alorma.tempcontacts.screen.base.Maverick
+import com.alorma.tempcontacts.screen.base.getArgument
 import java.time.LocalDateTime
 
 @Composable
@@ -43,16 +44,11 @@ fun EditContactScreen(
       )
     }
   ) {
-    val selectedDateParam: LocalDateTime? = navController.currentBackStackEntry
-      ?.savedStateHandle
-      ?.get<LocalDateTime>(Destinations.SELECT_DATE_RETURN_PARAM)
 
-    selectedDateParam?.let { selectedDate ->
-      navController.currentBackStackEntry
-        ?.savedStateHandle
-        ?.clearSavedStateProvider(Destinations.SELECT_DATE_RETURN_PARAM)
+    val selectedDateParam: LocalDateTime? = navController.getArgument(Destinations.SELECT_DATE_RETURN_PARAM)
 
-      editContactViewModel.setSelectedDate(selectedDate)
+    if (selectedDateParam != null) {
+      editContactViewModel.setSelectedDate(selectedDateParam)
     }
 
     val contactInfo by editContactViewModel.contactInfo.collectAsState()
