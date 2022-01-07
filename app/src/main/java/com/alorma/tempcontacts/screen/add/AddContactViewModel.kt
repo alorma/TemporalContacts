@@ -29,7 +29,7 @@ class AddContactViewModel(
 
   init {
     viewModelScope.launch {
-      _accounts.value = contactsDatasource.getSyncableAccounts().first()
+      _accounts.value = contactsDatasource.getSyncableAccounts().firstOrNull()
     }
   }
 

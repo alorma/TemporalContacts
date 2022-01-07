@@ -28,6 +28,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.alorma.tempcontacts.screen.Destinations
 import contacts.core.DataField
 import contacts.core.entities.Contact
 import contacts.core.util.addressList
@@ -39,6 +41,7 @@ import dev.burnoo.cokoin.viewmodel.getViewModel
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ContactsScreen(
+  navController: NavController,
   viewModel: ContactsViewModel = getViewModel(),
 ) {
   val filters by viewModel.filtersList.collectAsState()
@@ -52,7 +55,12 @@ fun ContactsScreen(
       )
     }
     items(contacts, key = { contact -> contact.id }) { contact ->
-      ContactView(contact)
+      ContactView(
+        contact = contact,
+        onContactClick = { contact ->
+          navController.navigate(Destinations.EDIT(contactId = contact.id))
+        },
+      )
     }
   }
 }
@@ -120,10 +128,15 @@ fun ContactFilter(
   }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ContactView(contact: Contact) {
+fun ContactView(
+  contact: Contact,
+  onContactClick: (Contact) -> Unit,
+) {
   Surface(
     modifier = Modifier.fillMaxWidth(),
+    onClick = { onContactClick(contact) },
   ) {
     Column(modifier = Modifier.padding(16.dp)) {
       Text(text = contact.id.toString())

@@ -7,9 +7,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.alorma.tempcontacts.data.DataModule
 import com.alorma.tempcontacts.screen.Destinations
 import com.alorma.tempcontacts.screen.add.AddContactModule
@@ -92,10 +94,18 @@ fun AppWithNavigation() {
 
   NavHost(navController, Destinations.CONTACTS) {
     composable(Destinations.CONTACTS) {
-      ContactsScreen()
+      ContactsScreen(navController)
     }
-    composable(Destinations.CREATE) {
-      AddContactSheet(navController)
+    composable(
+      route = Destinations.CREATE,
+      arguments = Destinations.CREATE_ARGUMENTS,
+    ) { backStackEntry ->
+      val contactId = Destinations.editParam(backStackEntry = backStackEntry)
+
+      AddContactSheet(
+        navController = navController,
+        contactId = contactId
+      )
     }
   }
 }
