@@ -1,4 +1,4 @@
-package com.alorma.tempcontacts.screen.add
+package com.alorma.tempcontacts.screen.edit
 
 import android.accounts.Account
 import androidx.compose.runtime.getValue
@@ -11,8 +11,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class AddContactViewModel(
+class EditContactViewModel(
   private val contactsDatasource: ContactsDatasource,
+  private val contactId: Long?,
 ) : ViewModel() {
 
   var nameValue by mutableStateOf<String?>("tempcontacts")

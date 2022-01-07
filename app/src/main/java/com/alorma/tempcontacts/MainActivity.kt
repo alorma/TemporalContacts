@@ -14,9 +14,11 @@ import com.alorma.tempcontacts.data.DataModule
 import com.alorma.tempcontacts.screen.Destinations
 import com.alorma.tempcontacts.screen.add.AddContactModule
 import com.alorma.tempcontacts.screen.add.AddContactScreen
-import com.alorma.tempcontacts.screen.add.AddContactViewModel
 import com.alorma.tempcontacts.screen.contacts.ContactsModule
 import com.alorma.tempcontacts.screen.contacts.ContactsScreen
+import com.alorma.tempcontacts.screen.edit.EditContactModule
+import com.alorma.tempcontacts.screen.edit.EditContactScreen
+import com.alorma.tempcontacts.screen.edit.EditContactViewModel
 import com.alorma.tempcontacts.ui.theme.TempContactsTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionsRequired
@@ -83,6 +85,7 @@ fun AppWithDependencies(
         DataModule(Contacts(activity)),
         ContactsModule(),
         AddContactModule(),
+        EditContactModule(),
       )
     },
     content = content,
@@ -106,10 +109,10 @@ fun AppWithNavigation() {
     ) { backStackEntry ->
       val contactId = Destinations.editParam(backStackEntry = backStackEntry)
 
-      val viewModel = getViewModel<AddContactViewModel>(
+      val viewModel = getViewModel<EditContactViewModel>(
         parameters = { parametersOf(contactId) }
       )
-      AddContactScreen(
+      EditContactScreen(
         navController = navController,
         addContactViewModel = viewModel,
       )
