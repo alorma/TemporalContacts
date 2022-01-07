@@ -19,5 +19,8 @@ object Destinations {
 
   val EDIT: String = "edit?$EDIT_PARAM={$EDIT_PARAM}"
   fun EDIT(contactId: Long): String = EDIT.replace("{$EDIT_PARAM}", contactId.toString())
-  fun editParam(backStackEntry: NavBackStackEntry): Long? = backStackEntry.arguments?.getString(EDIT_PARAM)?.toLong()
+  fun editParam(backStackEntry: NavBackStackEntry): Long {
+    val argument = backStackEntry.arguments?.getString(EDIT_PARAM)
+    return argument?.toLong() ?: error("No contact ID provided")
+  }
 }

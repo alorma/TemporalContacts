@@ -114,7 +114,7 @@ fun AppWithNavigation() {
       )
       EditContactScreen(
         navController = navController,
-        addContactViewModel = viewModel,
+        editContactViewModel = viewModel,
       )
     }
   }
