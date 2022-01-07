@@ -15,8 +15,7 @@ import com.alorma.tempcontacts.screen.Destinations
 import com.alorma.tempcontacts.screen.add.AddContactModule
 import com.alorma.tempcontacts.screen.add.AddContactSheet
 import com.alorma.tempcontacts.screen.contacts.ContactsModule
-import com.alorma.tempcontacts.screen.temporal.TemporalModule
-import com.alorma.tempcontacts.screen.temporal.TemporalScreen
+import com.alorma.tempcontacts.screen.contacts.ContactsScreen
 import com.alorma.tempcontacts.ui.theme.TempContactsTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionsRequired
@@ -80,7 +79,6 @@ fun AppWithDependencies(
       modules(
         DataModule(Contacts(activity)),
         ContactsModule(),
-        TemporalModule(),
         AddContactModule(),
       )
     },
@@ -92,9 +90,9 @@ fun AppWithDependencies(
 fun AppWithNavigation() {
   val navController = rememberNavController()
 
-  NavHost(navController, Destinations.TEMPORALS) {
-    composable(Destinations.TEMPORALS) {
-      TemporalScreen(navController)
+  NavHost(navController, Destinations.CONTACTS) {
+    composable(Destinations.CONTACTS) {
+      ContactsScreen()
     }
     composable(Destinations.CREATE) {
       AddContactSheet(navController)

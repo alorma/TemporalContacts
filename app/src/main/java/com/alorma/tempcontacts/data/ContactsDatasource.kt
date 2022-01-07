@@ -40,11 +40,13 @@ class ContactsDatasource(
   suspend fun loadAllContacts(filters: List<DataField>): List<Contact> {
     return contacts
       .query()
+      /*
       .where(
         (Fields.Event.Date greaterThan Date().toWhereString())
           and (Fields.Event.Type equalTo EventEntity.Type.CUSTOM)
           and (filters whereAnd { it.isNotNullOrEmpty() })
       )
+       */
       .include(
         Fields.Contact.Id,
         Fields.Contact.DisplayNamePrimary,
