@@ -51,9 +51,11 @@ fun ContactsScreen(
 
   Scaffold(
     floatingActionButton = {
+      /*
       FloatingActionButton(onClick = { navController.navigate(Destinations.CREATE) }) {
         Icon(imageVector = Icons.Default.Add, contentDescription = null)
       }
+      */
     },
   ) {
     LazyColumn {
