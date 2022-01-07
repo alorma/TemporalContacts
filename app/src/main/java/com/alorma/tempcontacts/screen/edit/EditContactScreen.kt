@@ -3,7 +3,9 @@ package com.alorma.tempcontacts.screen.edit
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
@@ -31,6 +33,11 @@ fun EditContactScreen(
   editContactViewModel: EditContactViewModel,
 ) {
 
+  val selectedDateParam: LocalDateTime? = navController.getArgument(Destinations.SELECT_DATE_RETURN_PARAM)
+  if (selectedDateParam != null) {
+    editContactViewModel.setSelectedDate(selectedDateParam)
+  }
+
   Scaffold(
     topBar = {
       TopAppBar(
@@ -43,25 +50,29 @@ fun EditContactScreen(
       )
     }
   ) {
+    Column {
+      val contactInfo by editContactViewModel.contactInfo.collectAsState()
 
-    val selectedDateParam: LocalDateTime? = navController.getArgument(Destinations.SELECT_DATE_RETURN_PARAM)
-
-    if (selectedDateParam != null) {
-      editContactViewModel.setSelectedDate(selectedDateParam)
-    }
-
-    val contactInfo by editContactViewModel.contactInfo.collectAsState()
-
-    when (contactInfo) {
-      is Maverick.Loading,
-      Maverick.Uninitialized -> FullLoadingState()
-      is Maverick.Fail -> ErrorState()
-      is Maverick.Success -> {
-        val success = contactInfo as Maverick.Success<EditContact>
-        SuccessState(
-          editContact = success.value,
-          onSchedule = { navController.navigate(Destinations.SELECT_DATE) }
-        )
+      when (contactInfo) {
+        is Maverick.Loading,
+        Maverick.Uninitialized -> FullLoadingState()
+        is Maverick.Fail -> ErrorState()
+        is Maverick.Success -> {
+          val success = contactInfo as Maverick.Success<EditContact>
+          SuccessState(
+            modifier = Modifier.fillMaxWidth(),
+            editContact = success.value,
+          )
+          val scheduleDate by editContactViewModel.scheduleDate.collectAsState()
+          if (scheduleDate != null) {
+            Text(text = scheduleDate.toString())
+          } else {
+            Spacer(modifier = Modifier.weight(1f))
+            Button(onClick = { navController.navigate(Destinations.SELECT_DATE) }) {
+              Text(text = "Schedule")
+            }
+          }
+        }
       }
     }
   }
@@ -69,23 +80,14 @@ fun EditContactScreen(
 
 @Composable
 fun SuccessState(
+  modifier: Modifier = Modifier,
   editContact: EditContact,
-  onSchedule: () -> Unit,
 ) {
   Column(
-    modifier = Modifier.fillMaxSize(),
+    modifier = modifier,
     verticalArrangement = Arrangement.spacedBy(8.dp)
   ) {
-    if (editContact.scheduled && editContact.scheduleDate != null) {
-      Text(text = "Planned: ${editContact.scheduleDate.toString()}")
-    } else {
-      Text(text = "Not planned")
-    }
     Text(text = editContact.contact.toString())
-
-    Button(onClick = { onSchedule() }) {
-      Text(text = "Schedule")
-    }
   }
 }
 

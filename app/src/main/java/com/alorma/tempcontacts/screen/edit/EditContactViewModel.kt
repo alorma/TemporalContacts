@@ -7,7 +7,6 @@ import com.alorma.tempcontacts.data.DeleteUsersDao
 import com.alorma.tempcontacts.screen.base.Maverick
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
@@ -16,10 +15,14 @@ class EditContactViewModel(
   private val deleteUsersDao: DeleteUsersDao,
   private val contactId: Long,
 ) : ViewModel() {
-  private val _contactInfo: MutableStateFlow<Maverick<EditContact>> = MutableStateFlow(Maverick.Uninitialized)
 
+  private val _contactInfo: MutableStateFlow<Maverick<EditContact>> = MutableStateFlow(Maverick.Uninitialized)
   val contactInfo: StateFlow<Maverick<EditContact>>
     get() = _contactInfo
+
+  private val _scheduleDate: MutableStateFlow<LocalDateTime?> = MutableStateFlow(null)
+  val scheduleDate: StateFlow<LocalDateTime?>
+    get() = _scheduleDate
 
   init {
     viewModelScope.launch {
@@ -41,17 +44,6 @@ class EditContactViewModel(
   }
 
   fun setSelectedDate(selectedDate: LocalDateTime) {
-    _contactInfo.update { maverick ->
-      if (maverick is Maverick.Success) {
-        maverick.copy(
-          maverick.value.copy(
-            scheduled = true,
-            scheduleDate = selectedDate
-          )
-        )
-      } else {
-        maverick
-      }
-    }
+    _scheduleDate.value = selectedDate
   }
 }
