@@ -14,6 +14,7 @@ import com.alorma.tempcontacts.data.DataModule
 import com.alorma.tempcontacts.screen.Destinations
 import com.alorma.tempcontacts.screen.add.AddContactModule
 import com.alorma.tempcontacts.screen.add.AddContactScreen
+import com.alorma.tempcontacts.screen.add.AddContactViewModel
 import com.alorma.tempcontacts.screen.contacts.ContactsModule
 import com.alorma.tempcontacts.screen.contacts.ContactsScreen
 import com.alorma.tempcontacts.ui.theme.TempContactsTheme
@@ -22,7 +23,9 @@ import com.google.accompanist.permissions.PermissionsRequired
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import contacts.core.Contacts
 import dev.burnoo.cokoin.Koin
+import dev.burnoo.cokoin.viewmodel.getViewModel
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.parameter.parametersOf
 
 class MainActivity : ComponentActivity() {
 
@@ -94,15 +97,21 @@ fun AppWithNavigation() {
     composable(Destinations.CONTACTS) {
       ContactsScreen(navController)
     }
+    composable(route = Destinations.CREATE) {
+      AddContactScreen(navController = navController)
+    }
     composable(
-      route = Destinations.CREATE,
-      arguments = Destinations.CREATE_ARGUMENTS,
+      route = Destinations.EDIT,
+      arguments = Destinations.EDIT_ARGUMENTS,
     ) { backStackEntry ->
       val contactId = Destinations.editParam(backStackEntry = backStackEntry)
 
+      val viewModel = getViewModel<AddContactViewModel>(
+        parameters = { parametersOf(contactId) }
+      )
       AddContactScreen(
         navController = navController,
-        contactId = contactId
+        addContactViewModel = viewModel,
       )
     }
   }

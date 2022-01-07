@@ -16,11 +16,14 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -44,23 +47,24 @@ fun ContactsScreen(
   navController: NavController,
   viewModel: ContactsViewModel = getViewModel(),
 ) {
-  val filters by viewModel.filtersList.collectAsState()
   val contacts by viewModel.contactsList.collectAsState()
 
-  LazyColumn {
-    stickyHeader {
-      ContactFilters(
-        filters = filters,
-        onFilterChange = { filter -> viewModel.filterChange(filter) }
-      )
-    }
-    items(contacts, key = { contact -> contact.id }) { contact ->
-      ContactView(
-        contact = contact,
-        onContactClick = { contact ->
-          navController.navigate(Destinations.EDIT(contactId = contact.id))
-        },
-      )
+  Scaffold(
+    floatingActionButton = {
+      FloatingActionButton(onClick = { navController.navigate(Destinations.CREATE) }) {
+        Icon(imageVector = Icons.Default.Add, contentDescription = null)
+      }
+    },
+  ) {
+    LazyColumn {
+      items(contacts, key = { contact -> contact.id }) { contact ->
+        ContactView(
+          contact = contact,
+          onContactClick = { editContact ->
+            navController.navigate(Destinations.EDIT(contactId = editContact.id))
+          },
+        )
+      }
     }
   }
 }

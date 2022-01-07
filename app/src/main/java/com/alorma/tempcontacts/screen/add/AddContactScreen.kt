@@ -26,7 +26,6 @@ import dev.burnoo.cokoin.viewmodel.getViewModel
 @Composable
 fun AddContactScreen(
   navController: NavController,
-  contactId: Long? = null,
   addContactViewModel: AddContactViewModel = getViewModel(),
 ) {
 
@@ -53,10 +52,6 @@ fun AddContactScreen(
         .padding(16.dp),
       verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-
-      if (contactId != null) {
-        Text(text = "Contact id: $contactId")
-      }
 
       val account by addContactViewModel.accounts.collectAsState()
 

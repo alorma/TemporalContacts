@@ -12,7 +12,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class AddContactViewModel(
-  private val contactsDatasource: ContactsDatasource
+  private val contactsDatasource: ContactsDatasource,
+  private val contactId: Long?,
 ) : ViewModel() {
 
   var nameValue by mutableStateOf<String?>("tempcontacts")
