@@ -1,6 +1,7 @@
 package com.alorma.tempcontacts.data
 
 import android.accounts.Account
+import contacts.async.accounts.findWithContext
 import contacts.async.commitWithContext
 import contacts.async.findWithContext
 import contacts.core.Contacts
@@ -27,7 +28,7 @@ class ContactsDatasource(
 ) {
 
   suspend fun getSyncableAccounts(): List<Account> = withContext(Dispatchers.IO) {
-    contacts.accounts(isProfile = true).query().accountsWithType("com.google")
+    contacts.accounts(isProfile = true).query().withTypes("com.google").findWithContext()
   }
 
   suspend fun loadAllContacts(filters: List<DataField>): List<Contact> {

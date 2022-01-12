@@ -63,7 +63,7 @@ dependencies {
   implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
   implementation "androidx.activity:activity-compose:1.4.0"
 
-  implementation "com.github.vestrel00:contacts-android:0.1.9"
+  implementation "com.github.vestrel00:contacts-android:0.1.10"
 
   implementation "com.google.accompanist:accompanist-permissions:0.21.4-beta"
 

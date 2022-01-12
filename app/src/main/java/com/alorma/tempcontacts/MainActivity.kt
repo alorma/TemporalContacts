@@ -83,7 +83,14 @@ fun AppWithDependencies(
       //androidLogger()
       androidContext(activity.applicationContext)
       modules(
-        DataModule(Contacts(activity)),
+        DataModule(
+          contacts = Contacts(
+            context = activity,
+            logger = contacts.core.log.AndroidLogger(
+              tag = "Alorma-Contacts",
+              redactMessages = !BuildConfig.DEBUG
+            ))
+        ),
         ContactsModule(),
         AddContactModule(),
         EditContactModule(),
